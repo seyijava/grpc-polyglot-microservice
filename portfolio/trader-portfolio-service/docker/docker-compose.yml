@@ -1,0 +1,55 @@
+version: '2'
+
+services:
+
+   
+   mysql:
+    container_name: mysql-rdbms
+    image: 'bitnami/mysql:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '3306:3306'
+    volumes:
+      - /home/adminuser/bigdata/docker-mount/mysql/data:/bitnami/mysql/data
+      - /home/adminuser/bigdata/docker-mount/mysql/conf/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf
+      
+      
+   consul: 
+    image: "consul"
+    container_name: "consul-service-discovery"
+    environment:
+      - "CONSUL_LOCAL_CONFIG={\"disable_update_check\": true}"
+      - "CONSUL_BIND_INTERFACE=eth0"
+      # environment:
+      #   - "CONSUL_LOCAL_CONFIG={\"disable_update_check\": true}"
+      #   - "CONSUL_BIND_INTERFACE=eth0"
+      #   - "CONSUL_HTTP_ADDR=0.0.0.0"
+    hostname: "consul"
+    ports:
+      - "8301:8301"
+      - "8400:8400"
+      - "8500:8500"
+      - "8600:53/udp"
+    # command: "agent -server -bootstrap -ui -client=0.0.0.0 -bind='{{ GetPrivateIP }}'"
+    command: "agent -server -bootstrap -ui -client=0.0.0.0 -bind='{{ GetInterfaceIP \"eth0\" }}'"  
+  
+   portfolio-service:
+     container_name: portfolio-service
+     build:
+       context: .
+       dockerfile: Dockerfile
+     image: portfolio-service:latest
+     ports:
+          - 9010:9010
+          - 6070:6070
+     depends_on:
+          - db
+          - consul
+     links:
+          - db:mysql-rdbms
+     environment:
+      - CONSUL_SERVER=consul
+      - CONSUL_PORT=8500
+    
+  

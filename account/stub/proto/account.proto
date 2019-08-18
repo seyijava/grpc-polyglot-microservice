@@ -1,0 +1,174 @@
+syntax = "proto3";
+
+
+
+message LoginInfo
+{
+   string username = 1;
+   string password = 2;
+}
+
+message CreditCardInfo
+{
+   string cardNumber = 1;
+   string cvc = 2;
+}
+
+
+message AddressInfo
+{
+    string street = 1;
+    string postalCode = 2;
+    string city = 3;
+    string province = 4;
+    string phoneNumber = 5;
+    string email = 6;
+}
+
+message ProfileInfo
+{
+    string firstName = 1;
+    string surname = 2;
+}
+
+message AddAccountRequest
+{
+      ProfileInfo profileInfo = 1;
+      LoginInfo   loginInfo = 2;
+      AddressInfo addressInfo = 3;
+      CreditCardInfo creditCardInfo = 4;
+      
+}
+
+
+message AddAccountReponse
+{
+      string accountNumber = 1;
+      
+}
+
+
+message AddCreditCardRequest
+{
+      string accountNumber = 1;
+      CreditCardInfo creditCardInfo = 2;
+      
+}
+
+
+message AddCreditCardResponse
+{
+      string accountNumber = 1;
+      
+}
+
+message AddresssUpdateRequest
+{
+      string accountNumber = 1;
+      AddressInfo addressInfo = 2;
+      
+}
+
+
+message AddressUpdateResponse
+{
+      string accountNumber = 1;
+      
+}
+
+
+message ProfileUpdateRequest
+{
+      string accountNumber = 1;
+      ProfileInfo profileInfo = 2;
+      
+}
+
+
+message ProfileUpdateResponse
+{
+      string accountNumber = 1;
+      
+}
+
+
+message BalanceRequest
+{
+      string accountNumber = 1;
+}
+
+
+message BalanceResponse
+{
+     double balance = 1;
+}
+
+
+message CreditCardsRequest
+{
+      string accountNumber = 1;
+}
+
+message CreditCardsResponse
+{
+      repeated CreditCardInfo creditCards = 1;
+}
+
+
+
+message ProfileRequest
+{
+      string accountNumber = 1;
+     
+      
+}
+
+
+message ProfileResponse
+{
+       ProfileInfo profileInfo = 1;
+      
+}
+
+message DepositRequest
+{
+      double amount = 1;
+}
+
+message DepositResponse
+{
+      bool status = 1;
+}
+
+
+message WithdrawRequest
+{
+      double amount = 1;
+}
+
+message WithdrawResponse
+{
+      bool status = 1;
+}
+
+
+service AccountRpcService 
+{
+  rpc addAccount(AddAccountRequest) returns (AddAccountReponse);
+  
+  rpc addCreditCard(AddCreditCardRequest) returns (AddCreditCardResponse);
+  
+  rpc updateAddress(AddresssUpdateRequest) returns (AddressUpdateResponse);
+  
+  rpc updateProfile(ProfileUpdateRequest) returns (ProfileUpdateResponse);
+  
+  rpc getAccountBalance(BalanceRequest) returns (BalanceResponse);
+  
+  rpc getAllCreditCardsByAccount(CreditCardsRequest) returns (CreditCardsResponse);
+  
+  rpc getProfileByAccount(ProfileRequest) returns (ProfileResponse);
+  
+  rpc deposit(DepositRequest) returns (DepositResponse);
+  
+  rpc withdraw(WithdrawRequest) returns (WithdrawResponse);
+}

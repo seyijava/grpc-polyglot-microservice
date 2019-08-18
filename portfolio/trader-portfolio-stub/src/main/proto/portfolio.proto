@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+
+
+
+
+option java_multiple_files = true;
+
+
+
+
+
+package com.bigdataconcept.microservice.grpc.trader.portfolio.stub;
+
+
+message Date 
+{
+ 
+  int32 year = 1;
+
+  
+  int32 month = 2;
+
+ 
+  int32 day = 3;
+}
+
+
+message Holdings
+{
+  string symbol =1;
+  int32 quantity =2;
+  double buyValue=3;
+  double sellValue = 4;
+  repeated Order orders =5;
+  double currentValue =6;
+}
+
+
+message Order
+{
+
+    int64 orderId = 1;
+	string symbol = 2;
+	double orderFee =3;
+	Ordertype ordertype =4;
+	double price =5;
+	int32 quantity =6;
+	Date completiondate =7;
+	string accountId = 8;
+	
+	
+	enum Ordertype
+	{
+	   BUY = 0;
+	   SELL = 1;
+	}
+}
+
+
+message Portfolio
+{
+
+    string accountId = 1;
+	string  name = 2;
+	double currentTotalValue =3;
+	double buyValue = 4;
+	double sellValue = 5;
+	map<string, Holdings> holdings =6;
+}
+
+
+message PortfolioRequest
+{
+    string accountId = 1;
+}
+
+message PortfolioResponse
+{
+    Portfolio portfolio = 1;
+}
+
+
+
+message OrderRequest
+{
+    string accountId = 1;
+	Order order = 2;
+}
+
+message OrderResponse
+{
+    string orderNumber =1;
+	string accountId = 2;
+}
+
+service PortfolioService
+{
+    rpc getPortfolio(PortfolioRequest) returns (PortfolioResponse);
+	
+	rpc createOrder(OrderRequest) returns (OrderResponse);
+}

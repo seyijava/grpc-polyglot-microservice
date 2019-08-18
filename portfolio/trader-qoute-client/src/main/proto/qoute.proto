@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+
+
+package com.bigdataconcept.microservice.grpc.trader.qoute.stub;
+
+message QuoteRequest
+{
+    string symbol = 1;
+    
+}
+
+
+message QuoteResponse
+{
+   string name = 1;
+   string symbol = 2;
+   double lastPrice = 3;
+   double change = 4;
+   double changePercentage = 5;
+   double marketCap = 6;
+   uint64 volume = 7;
+   double changeYTD = 8;
+   double changePercentageYTD=9;
+   double low = 10;
+   double high = 11;
+   double open = 12;
+      
+}
+
+
+
+
+service QuoteRpcService 
+{
+  rpc getQuote(QuoteRequest) returns (QuoteResponse);
+}

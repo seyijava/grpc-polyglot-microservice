@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+
+
+package com.bigdataconcept.microservice.grpc.trader.quote;
+
+message 	IQuoteRequest
+{
+    string symbol = 1;
+    
+}
+
+
+message IQuoteResponse
+{
+   string name = 1;
+   string symbol = 2;
+   double lastPrice = 3;
+   double change = 4;
+   double changePercentage = 5;
+   int64 marketCap = 6;
+   int64 volume = 7;
+   double changeYTD = 8;
+   double changePercentageYTD=9;
+   double low = 10;
+   double high = 11;
+   double open = 12;
+      
+}
+
+
+
+
+service IQuoteRpcService 
+{
+  rpc getQuote(IQuoteRequest) returns (IQuoteResponse);
+}

@@ -1,0 +1,10 @@
+
+{
+	"ServicePort":  1701,
+	"ConsulUrl" :  "http://consul:8500", 
+	"ServiceHost": "127.0.0.1",
+	"JargerEndPointUrl":   "http://jaeger:14268",
+	"DBUrl": "host=192.168.2.24 port=5432 user=admindb dbname=accountstoredb password=password",
+	"ServiceUrl": "0.0.0.0:%d",
+
+}
